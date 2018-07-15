@@ -1,0 +1,117 @@
+﻿@model  Astro.Assignment.Web.Models.AstroChannelMiniModels
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Assignment 3</h2>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <table class="table" id="channelsTable" style="width:100%">
+            <thead>
+                <tr>
+                    <th id="channelIdHeader" class="clickableControl">
+                        @Html.DisplayNameFor(model => model.data.FirstOrDefault().ChannelId)
+                    </th>
+                    <th id="channelTitleHeader" class="clickableControl">
+                        @Html.DisplayNameFor(model => model.data.FirstOrDefault().ChannelTitle)
+                    </th>
+                    <th id="channelLiveHeader" class="clickableControl">
+                        @Html.DisplayNameFor(model => model.data.FirstOrDefault().EventDescription)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="col-md-1">
+        @Html.Hidden("UpdateFavoriteUrl", @Url.Action("ToggleChannelFavorit"))
+        @Html.Hidden("IsLoggedIn", @User.Identity.IsAuthenticated)
+        @Html.Hidden("LoginUrl", @Url.Action("Login", "Account"))
+    </div>
+
+    <script src="@Url.Content("~/Scripts/astroScript.js")"></script>
+
+</div>
+
+@section scripts
+{
+    <script>
+        //var momnet = require('moment');
+        function onSuccess(serverData) {
+
+        }
+
+        function onFailure(errorMessage) {
+
+        }
+
+        function updateInitialFavImage(data, type, full, meta) {
+            //var orderType = data.OrderType;
+            if (data) {
+                return '<p class="glyphicon glyphicon-heart clickableControl" data-channelId=' + full.ChannelId + ' onclick="toggleFavorite(this, ' + full.ChannelId + ', UpdateFavoriteUrl, IsLoggedIn, true, LoginUrl, onSuccess, onFailure)"></p>';
+            } else {
+                return '<p class="glyphicon glyphicon-heart-empty clickableControl" data-channelId=' + full.ChannelId + ' onclick="toggleFavorite(this, ' + full.ChannelId + ', UpdateFavoriteUrl, IsLoggedIn, true, LoginUrl, onSuccess, onFailure)"></p>';
+            }
+        }
+
+        $(document).ready(function() {
+            $('#channelsTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "searching": false,
+                "lengthChange": false,
+                "paging": true,
+                "responsive": true,
+                //scrollY: 200,
+                //scroller: {
+                //    loadingIndicator: true
+                //},
+                "ajax": {
+                    "url": '@Url.Action("GetChannelsList")',
+                    "data": function ( d ) {
+                        d.clientDateTime = moment().utc().toISOString();
+                        // d.custom = $('#myInput').val();
+                        // etc
+                    }
+                },
+                "columns": [
+                    { "data": "ChannelId" },
+                    { "data": "ChannelTitle" },
+                    { "data": "EventDescription" },
+                    { "data": "IsFavorite", render: updateInitialFavImage }
+                ],
+                "columnDefs": [
+                    {
+                        "targets": 2,
+                        "sortable": false
+                    },
+                    {
+                        "targets": 3,
+                        "sortable": false
+                    },
+                    {
+                        "targets": 0,
+                        "createdCell": function(td, cellData, rowData, row, col) {
+                            if (col === 0) {
+                                $(td).attr('data-toggle', 'tooltip');
+                                $(td).attr('data-container', 'body');
+                                $(td).attr('title', rowData.Description);
+                            }
+                        }
+                    }
+                ],
+                "fnDrawCallback": function( oSettings ) {
+                    //alert('DataTables has redrawn the table');
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
+            });
+
+
+        });
+    </script>
+}
