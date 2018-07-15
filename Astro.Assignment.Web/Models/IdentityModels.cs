@@ -20,7 +20,7 @@ namespace Astro.Assignment.Web.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Models.UserFavoriteChannelsModels> UserFavoriteChannels { get; set; }
+        public virtual DbSet<Models.UserFavoriteChannelsModels> UserFavoriteChannels { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
