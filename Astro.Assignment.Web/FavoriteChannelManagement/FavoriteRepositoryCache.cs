@@ -38,11 +38,15 @@ namespace Astro.Assignment.Web.FavoriteChannelManagement
 
             lock (Astro.Assignment.Web.Statics.StaticObjects.CacheLockKey)
             {
-                if (Source.Contains(key))
-                    Source.Remove(key);
-
+                ClearFavoriteFromRepo(key);
                 Source.Add(key, FavoriteChannels, DateTimeOffset.MaxValue);
             }
+        }
+
+        public override void ClearFavoriteFromRepo(string key)
+        {
+            if (Source.Contains(key))
+                Source.Remove(key);
         }
     }
 }

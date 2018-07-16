@@ -13,6 +13,8 @@ namespace Astro.Assignment.Web.FavoriteChannelManagement
         public abstract void GetFavoriteFromRepo(string key);
         public abstract void UpdateFavoriteRepo(string key, int channelId);
 
+        public abstract void ClearFavoriteFromRepo(string key);
+
         public virtual bool IsFavoriteChannel(int channelId)
         {
             return FavoriteChannels.Contains(channelId);

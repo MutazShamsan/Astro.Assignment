@@ -34,5 +34,10 @@ namespace Astro.Assignment.Web.FavoriteChannelManagement
 
             Source[key] = FavoriteChannels;
         }
+
+        public override void ClearFavoriteFromRepo(string key)
+        {
+            Source.Remove(key);
+        }
     }
 }

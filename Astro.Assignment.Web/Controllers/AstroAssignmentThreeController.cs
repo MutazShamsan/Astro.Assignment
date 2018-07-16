@@ -11,7 +11,7 @@ namespace Astro.Assignment.Web.Controllers
 {
     public class AstroAssignmentThreeController : AstroAssignmentTwoController
     {
-        private readonly ApplicationDbContext _dbContext;
+        private ApplicationDbContext _dbContext;
 
         public AstroAssignmentThreeController()
         {
@@ -28,6 +28,13 @@ namespace Astro.Assignment.Web.Controllers
         protected override string GetFavoriteManagementKey()
         {
             return User.Identity.Name;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _dbContext.Database.Connection.Close();
+            _dbContext.Dispose();
+            _dbContext = null;
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Astro.Assignment.Web.FavoriteChannelManagement
 
         public override void UpdateFavoriteRepo(string key, int channelId)
         {
-            var user = Source.UserFavoriteChannels.FirstOrDefault(st => st.ChannelId == channelId && st.UserId == key);
-            if (user == null)
+            var userFavorites = Source.UserFavoriteChannels.FirstOrDefault(st => st.ChannelId == channelId && st.UserId == key);
+            if (userFavorites == null)
             {
                 Source.UserFavoriteChannels.Add(new UserFavoriteChannelsModels()
                 {
@@ -31,7 +31,15 @@ namespace Astro.Assignment.Web.FavoriteChannelManagement
                 });
             }
             else
-                Source.UserFavoriteChannels.Remove(user);
+                Source.UserFavoriteChannels.Remove(userFavorites);
+
+            Source.SaveChanges();
+        }
+
+        public override void ClearFavoriteFromRepo(string key)
+        {
+            var userFavorites = Source.UserFavoriteChannels.Where(st => st.UserId == key).ToList();
+            Source.UserFavoriteChannels.RemoveRange(userFavorites);
 
             Source.SaveChanges();
         }
