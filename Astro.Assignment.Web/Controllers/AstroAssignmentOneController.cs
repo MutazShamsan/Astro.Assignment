@@ -17,8 +17,7 @@ namespace Astro.Assignment.Web.Controllers
 
         public AstroAssignmentOneController()
         {
-            if (FavoriteRepoManagement == null)
-                FavoriteRepoManagement = new FavoriteRepositorySession();
+            FavoriteRepoManagement = new FavoriteRepositoryCache();
         }
 
         public ActionResult Index(string sortByName, string sortingOrder)

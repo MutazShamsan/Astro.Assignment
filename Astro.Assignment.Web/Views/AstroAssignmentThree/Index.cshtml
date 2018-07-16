@@ -1,7 +1,7 @@
 ﻿@model  Astro.Assignment.Web.Models.AstroChannelMiniModels
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Assignment 3";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -31,7 +31,7 @@
     <div class="col-md-1">
         @Html.Hidden("UpdateFavoriteUrl", @Url.Action("ToggleChannelFavorit"))
         @Html.Hidden("IsLoggedIn", @User.Identity.IsAuthenticated)
-        @Html.Hidden("LoginUrl", @Url.Action("Login", "Account"))
+        @Html.Hidden("LoginUrl", @Url.Action("Login", "Account", new { returnUrl = @Url.Action("Index", "AstroAssignmentThree") }))
     </div>
 
     <script src="@Url.Content("~/Scripts/astroScript.js")"></script>
@@ -67,6 +67,7 @@
                 "lengthChange": false,
                 "paging": true,
                 "responsive": true,
+                "info": false,
                 //scrollY: 200,
                 //scroller: {
                 //    loadingIndicator: true
@@ -91,8 +92,8 @@
                         "sortable": false
                     },
                     {
-                        "targets": 3,
-                        "sortable": false
+                        "targets": 3
+                        //"sortable": false
                     },
                     {
                         "targets": 0,

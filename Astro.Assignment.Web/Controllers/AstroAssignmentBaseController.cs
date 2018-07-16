@@ -14,14 +14,19 @@ namespace Astro.Assignment.Web.Controllers
     /// <summary>
     /// Base Controller for all assignments
     /// </summary>
-    public class AstroAssignmentBaseController : Controller
+    public abstract class AstroAssignmentBaseController : Controller
     {
         protected readonly HttpClient AstroApi;
         protected AstroChannelMiniModels AstroChannelsMiniInfo { get; set; }
         protected AstroChannelDescriptionModels AstroChannelsDescr { get; set; }
         protected FavoriteChannelManagement.IFavoriteRepository FavoriteRepoManagement { get; set; }
 
-        public AstroAssignmentBaseController()
+        protected virtual string GetFavoriteManagementKey()
+        {
+            return Constants.Constant.AstroFavoriteChannelsCachedKey;
+        }
+
+        protected AstroAssignmentBaseController()
         {
             AstroApi = new HttpClient
             {
@@ -70,7 +75,6 @@ namespace Astro.Assignment.Web.Controllers
                                 AstroChannelsMiniInfo.data.OrderByDescending(st => st.ChannelId);
                             break;
                     }
-
                     break;
                 case "1":
                     switch (sortingOrder)
@@ -83,7 +87,18 @@ namespace Astro.Assignment.Web.Controllers
                                 AstroChannelsMiniInfo.data.OrderByDescending(st => st.ChannelTitle);
                             break;
                     }
-
+                    break;
+                case "3":
+                    switch (sortingOrder)
+                    {
+                        case "asc":
+                            AstroChannelsMiniInfo.data = AstroChannelsMiniInfo.data.OrderBy(st => st.IsFavorite);
+                            break;
+                        case "desc":
+                            AstroChannelsMiniInfo.data =
+                                AstroChannelsMiniInfo.data.OrderByDescending(st => st.IsFavorite);
+                            break;
+                    }
                     break;
             }
         }
@@ -112,7 +127,7 @@ namespace Astro.Assignment.Web.Controllers
 
         private void AddFavoriteAndDescriptionInfo()
         {
-            FavoriteRepoManagement.GetFavoriteFromRepo(Constants.Constant.AstroFavoriteChannelsCachedKey);
+            FavoriteRepoManagement.GetFavoriteFromRepo(GetFavoriteManagementKey());//Constants.Constant.AstroFavoriteChannelsCachedKey);
 
             foreach (var item in AstroChannelsMiniInfo.data)
             {
@@ -128,7 +143,7 @@ namespace Astro.Assignment.Web.Controllers
         [System.Web.Mvc.HttpPost]
         public ActionResult ToggleChannelFavorit([FromBody] string channelId)
         {
-            FavoriteRepoManagement.UpdateFavoriteRepo(Constants.Constant.AstroFavoriteChannelsCachedKey,
+            FavoriteRepoManagement.UpdateFavoriteRepo(GetFavoriteManagementKey(),
                 Convert.ToInt32(channelId));
 
             return new JsonResult();

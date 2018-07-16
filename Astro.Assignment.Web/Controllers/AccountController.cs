@@ -163,7 +163,7 @@ namespace Astro.Assignment.Web.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "AstroAssignmentOne");
                 }
                 AddErrors(result);
             }
@@ -328,7 +328,7 @@ namespace Astro.Assignment.Web.Controllers
                 return RedirectToAction("Login");
             }
 
-            HttpContext.Session.Clear();
+            //HttpContext.Session.Clear();
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
@@ -393,7 +393,7 @@ namespace Astro.Assignment.Web.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "AstroAssignmentOne");
         }
 
         //
@@ -450,7 +450,7 @@ namespace Astro.Assignment.Web.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "AstroAssignmentOne");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

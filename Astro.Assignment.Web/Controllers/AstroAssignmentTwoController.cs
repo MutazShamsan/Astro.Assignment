@@ -14,10 +14,9 @@ namespace Astro.Assignment.Web.Controllers
     {
         public AstroAssignmentTwoController()
         {
-            if (FavoriteRepoManagement == null)
-                FavoriteRepoManagement = new FavoriteRepositorySession();
+            FavoriteRepoManagement = new FavoriteRepositoryCache();
         }
-        // GET: AstroChannelShow
+
         public virtual ActionResult Index()
         {
             // await SS(DateTime.Now, new int[] { 2 });
@@ -43,8 +42,8 @@ namespace Astro.Assignment.Web.Controllers
             foreach (var channel in source.data)
             {
                 var liveEvent = result.Events.FirstOrDefault(st =>
-                      st.ChannelId == channel.ChannelId && st.DisplayDateTime <= clientDateTime &&
-                      st.DisplayEndDateTime >= clientDateTime);
+                    st.ChannelId == channel.ChannelId && st.DisplayDateTime <= clientDateTime &&
+                    st.DisplayEndDateTime >= clientDateTime);
 
                 if (liveEvent != null)
                 {

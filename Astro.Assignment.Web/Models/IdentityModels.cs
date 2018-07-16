@@ -23,7 +23,7 @@ namespace Astro.Assignment.Web.Models
         public virtual DbSet<Models.UserFavoriteChannelsModels> UserFavoriteChannels { get; set; }
 
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("AWSConnection", throwIfV1Schema: false)
         {
         }
 

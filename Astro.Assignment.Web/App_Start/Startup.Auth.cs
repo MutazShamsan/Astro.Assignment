@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -34,7 +35,7 @@ namespace Astro.Assignment.Web
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -58,10 +59,27 @@ namespace Astro.Assignment.Web
             //   appId: "",
             //   appSecret: "");
 
+            //Not a proper place to store those data, but only put here for demo purpose
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "459647474773-gr9llcaai2m8ikm1ldab8o4dni434t3v.apps.googleusercontent.com",
                 ClientSecret = "vc8kqXvOA5uc_tw6Fe5Wm-pS"
+                //,
+                //Provider = new GoogleOAuth2AuthenticationProvider()
+                //{
+                //    OnAuthenticated = async context =>
+                //    {
+                //        context.Identity.AddClaim(new Claim("GoogleAccessToken", context.AccessToken));
+                //        foreach (var claim in context.User)
+                //        {
+                //            var claimType = string.Format("urn:google:{0}", claim.Key);
+                //            var claimValue = claim.Value.ToString();
+                //            if (!context.Identity.HasClaim(claimType, claimValue))
+                //                context.Identity.AddClaim(new Claim(claimType, claimValue, "XmlSchemaString", "Google"));
+                //        }
+                //    }
+                //},
+                //Scope = { "https://googleapis.com/auth/plus.login.email" }
             });
         }
     }

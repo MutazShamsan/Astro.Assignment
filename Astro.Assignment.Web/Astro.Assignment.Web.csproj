@@ -19,7 +19,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44399</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -218,6 +219,7 @@
     <Compile Include="FavoriteChannelManagement\FavoriteRepositoryBase.cs" />
     <Compile Include="FavoriteChannelManagement\FavoriteRepositoryDatabase.cs" />
     <Compile Include="FavoriteChannelManagement\FavoriteRepositorySession.cs" />
+    <Compile Include="FavoriteChannelManagement\FavoriteRepositoryCache.cs" />
     <Compile Include="FavoriteChannelManagement\IFavoriteRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -240,8 +242,16 @@
     <Compile Include="Models\UserFavoriteChannelsModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Statics\StaticObjects.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-Astro.Assignment.Web-20180711021505.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\aspnet-Astro.Assignment.Web-20180711021505_log.ldf">
+      <DependentUpon>aspnet-Astro.Assignment.Web-20180711021505.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -313,9 +323,7 @@
     <Content Include="Views\AstroAssignmentTwo\Index.cshtml" />
     <Content Include="Views\AstroAssignmentThree\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -352,7 +360,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54140</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44399/</IISUrl>
+          <IISUrl>http://localhost:44399/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
