@@ -37,13 +37,13 @@ namespace Astro.Assignment.Web.Controllers
         {
             var result = await GetExternalApiData<Models.AstroEventModels>(
                 "/ams/v3/getEvents" +
-                ConstructUrlParameters(clientDateTime.ToLocalTime(), source.data.Select(st => st.ChannelId).ToArray()));
+                ConstructUrlParameters(clientDateTime, source.data.Select(st => st.ChannelId).ToArray()));
 
             foreach (var channel in source.data)
             {
                 var liveEvent = result.Events.FirstOrDefault(st =>
-                    st.ChannelId == channel.ChannelId && st.DisplayDateTime <= clientDateTime &&
-                    st.DisplayEndDateTime >= clientDateTime);
+                    st.ChannelId == channel.ChannelId && st.DisplayDateTimeUtc <= clientDateTime &&
+                    st.DisplayEndDateTimeUtc >= clientDateTime);
 
                 if (liveEvent != null)
                 {
@@ -55,9 +55,11 @@ namespace Astro.Assignment.Web.Controllers
 
         private string ConstructUrlParameters(DateTimeOffset clientDateTime, int[] channeslId)
         {
+            var malaysiaTime = TimeZoneInfo.ConvertTime(clientDateTime, Statics.StaticObjects.MalaysiaTimeZone);
+
             return string.Format("?channelId={0}&periodStart={1:yyyy-MM-dd HH:mm}&periodEnd={2:yyyy-MM-dd HH:mm}",
-                string.Join(",", channeslId.AsEnumerable()), clientDateTime - new TimeSpan(3, 0, 0),
-                clientDateTime + new TimeSpan(3, 0, 0));
+                string.Join(",", channeslId.AsEnumerable()), malaysiaTime - new TimeSpan(12, 0, 0),
+                malaysiaTime + new TimeSpan(0, 30, 0));
         }
     }
 }

@@ -8,5 +8,7 @@ namespace Astro.Assignment.Web.Statics
     public static class StaticObjects
     {
         public static readonly object CacheLockKey = new object();
+        public static TimeZoneInfo MalaysiaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+
     }
 }

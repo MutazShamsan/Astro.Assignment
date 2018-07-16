@@ -28,6 +28,9 @@ namespace Astro.Assignment.Web
                       "~/Content/bootstrap.css",
                       "~/Content/datatables.css",
                       "~/Content/site.css"));
+#if !DEBUG
+            BundleTable.EnableOptimizations = true;
+#endif
         }
     }
 }
